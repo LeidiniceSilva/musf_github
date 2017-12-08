@@ -146,7 +146,6 @@ def import_obs_data(mon, basin, date_list):
 	
 	if not target_rundate in date_list:
 	    
-	    
 	    ini_rundate, star_fcstdate, end_fcstdate = define_dates(target_rundate)
 	
 	    ifcstdate = datetime.strptime(star_fcstdate, "%Y%m%d")

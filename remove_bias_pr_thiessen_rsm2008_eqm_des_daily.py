@@ -21,8 +21,6 @@ from dateutil.relativedelta import *
 from datetime import datetime, date
 from hidropy.utils.hidropy_utils import date2index, basin_dict
 from hidropy.utils.write_thiessen import write_thiessen
-
-from PyFuncemeClimateTools import ClimateStats as cs
 from PyFuncemeClimateTools.Thiessen import thiessen
  
 from os.path import expanduser
@@ -103,6 +101,10 @@ def define_dates(target_date):
     target_mfcstdate = target_date + relativedelta(months=2)
     target_efcstdate = target_date + relativedelta(months=3)
     
+    fcst_yea1 = target_ifcstdate.strftime("%Y")
+    fcst_yea2 = target_mfcstdate.strftime("%Y")
+    fcst_yea3 = target_efcstdate.strftime("%Y")
+
     fcst_mon1 = target_ifcstdate.strftime("%m")
     fcst_mon2 = target_mfcstdate.strftime("%m")
     fcst_mon3 = target_efcstdate.strftime("%m")
@@ -112,7 +114,7 @@ def define_dates(target_date):
     end_fcstdate   = '{0}{1:02d}{2:02d}'.format(target_efcstdate.year, target_efcstdate.month,
 		      calendar.monthrange(target_efcstdate.year, target_efcstdate.month)[1])
     
-    return str_mon, fcst_mon1, fcst_mon2, fcst_mon3, start_rundate, start_fcstdate, end_fcstdate
+    return fcst_yea1, fcst_yea2, fcst_yea3, str_mon, fcst_mon1, fcst_mon2, fcst_mon3, start_rundate, start_fcstdate, end_fcstdate
 
 
 def import_fcst_model_data(model_name, target_date, basin):
@@ -126,12 +128,12 @@ def import_fcst_model_data(model_name, target_date, basin):
     :rtype:list
     """
 
-    str_mon, fcst_mon1, fcst_mon2, fcst_mon3, start_rundate, start_fcstdate, end_fcstdate = define_dates(target_date)
+    fcst_yea1, fcst_yea2, fcst_yea3, str_mon, fcst_mon1, fcst_mon2, fcst_mon3, start_rundate, start_fcstdate, end_fcstdate = define_dates(target_date)
 
-    firt_mon = calendar.monthrange(target_date.year, int(fcst_mon1))[1]
-    seco_mon = calendar.monthrange(target_date.year, int(fcst_mon2))[1]
-    thir_mon = calendar.monthrange(target_date.year, int(fcst_mon3))[1]
-    
+    firt_mon = calendar.monthrange(int(fcst_yea1), int(fcst_mon1))[1]
+    seco_mon = calendar.monthrange(int(fcst_yea2), int(fcst_mon2))[1]
+    thir_mon = calendar.monthrange(int(fcst_yea3), int(fcst_mon3))[1]
+
     basin_full_name = basin_dict(basin)[2]
     basin_name = basin_dict(basin)[1]
     
@@ -185,11 +187,11 @@ def import_hind_model_data(model_name, target_date, basin):
     for ii, y in enumerate(year_list):
 	
 	target_rundate = datetime(y, target_date.month, 01)
-	str_mon, fcst_mon1, fcst_mon2, fcst_mon3, start_rundate, start_fcstdate, end_fcstdate = define_dates(target_rundate)
+	fcst_yea1, fcst_yea2, fcst_yea3, str_mon, fcst_mon1, fcst_mon2, fcst_mon3, start_rundate, start_fcstdate, end_fcstdate = define_dates(target_rundate)
 	
-	firt_mon = calendar.monthrange(y, int(fcst_mon1))[1]
-	seco_mon = calendar.monthrange(y, int(fcst_mon2))[1]
-	thir_mon = calendar.monthrange(y, int(fcst_mon3))[1]
+	firt_mon = calendar.monthrange(int(fcst_yea1), int(fcst_mon1))[1]
+	seco_mon = calendar.monthrange(int(fcst_yea2), int(fcst_mon2))[1]
+	thir_mon = calendar.monthrange(int(fcst_yea3), int(fcst_mon3))[1]
 
 	basin_full_name = basin_dict(basin)[2]
         basin_name = basin_dict(basin)[1]
@@ -200,7 +202,7 @@ def import_hind_model_data(model_name, target_date, basin):
 			
 	file_modelname  = "{0}_{1}_{2}_hind8110_fcst_{3}_{4}_{5}_thiessen_{6}.nc". \
 			   format(var_name, time_freq, model_name, start_rundate, start_fcstdate,
-			   end_fcstdate, basin)	
+			   end_fcstdate, basin_full_name)	
 	try:
 	    input_data = Dataset(os.path.join(dir_modelname, file_modelname))
 	    hind = input_data.variables[var_name][:]
@@ -214,7 +216,7 @@ def import_hind_model_data(model_name, target_date, basin):
 	    hind_clim1 = np.nan
     	    hind_clim2 = np.nan
 	    hind_clim3 = np.nan
-    
+
     input_data.close()
     clim_model1 = np.squeeze(hind_clim1)
     clim_model2 = np.squeeze(hind_clim2)
@@ -239,11 +241,11 @@ def import_hind_obs_data(model_name, target_date, basin):
     for y in range(1981, 2010 + 1):
 	
 	target_rundate = datetime(y, target_date.month, 01)
-	str_mon, fcst_mon1, fcst_mon2, fcst_mon3, start_rundate, start_fcstdate, end_fcstdate = define_dates(target_rundate)
+	fcst_yea1, fcst_yea2, fcst_yea3, str_mon, fcst_mon1, fcst_mon2, fcst_mon3, start_rundate, start_fcstdate, end_fcstdate = define_dates(target_rundate)
 	
-	firt_mon = calendar.monthrange(y, int(fcst_mon1))[1]
-	seco_mon = calendar.monthrange(y, int(fcst_mon2))[1]
-	thir_mon = calendar.monthrange(y, int(fcst_mon3))[1]
+	firt_mon = calendar.monthrange(int(fcst_yea1), int(fcst_mon1))[1]
+	seco_mon = calendar.monthrange(int(fcst_yea2), int(fcst_mon2))[1]
+	thir_mon = calendar.monthrange(int(fcst_yea3), int(fcst_mon3))[1]
 	
 	basin_full_name = basin_dict(basin)[2]
 	basin_name = basin_dict(basin)[1]
@@ -251,7 +253,7 @@ def import_hind_obs_data(model_name, target_date, basin):
 	file_name = '{0}{1}/inmet_ana_chirps_merge/calibration/{2}/' \
 		    '{3}_thiessen/{4}/{3}_{2}_{5}_obs_{6}_thiessen_{7}.nc' \
 		    .format(HIDROPY_DIR, localdir, time_freq, var_name, basin_name, data_base,
-		     hind_obs_period, basin_full_name)	      
+		     hind_obs_period, basin_full_name)	  
 
 	inc = Dataset(file_name)
 	time_var = inc.variables['time']
@@ -265,12 +267,12 @@ def import_hind_obs_data(model_name, target_date, basin):
 	hind_obs1.append(np.nansum(aux[0:firt_mon]))
 	hind_obs2.append(np.nansum(aux[firt_mon:firt_mon+seco_mon]))
 	hind_obs3.append(np.nansum(aux[firt_mon+seco_mon:firt_mon+seco_mon+thir_mon]))
-
+	
     inc.close()
     clim_obs1 = np.squeeze(hind_obs1)
     clim_obs2 = np.squeeze(hind_obs2)
     clim_obs3 = np.squeeze(hind_obs3)
-
+    
     return clim_obs1, clim_obs2, clim_obs3
 
 
@@ -359,7 +361,7 @@ if __name__ == "__main__":
             basin_full_name = basin_dict(basin)[2]
             basin_name = basin_dict(basin)[1]
             
-	    str_mon, fcst_mon1, fcst_mon2, fcst_mon3, start_rundate, start_fcstdate, end_fcstdate = define_dates(target_date)
+	    fcst_yea1, fcst_yea2, fcst_yea3, str_mon, fcst_mon1, fcst_mon2, fcst_mon3, start_rundate, start_fcstdate, end_fcstdate = define_dates(target_date)
                 
             fcst1, fcst2, fcst3, firt_mon, seco_mon, thir_mon, flag = import_fcst_model_data(modname, target_date, basin)
 	   
@@ -385,7 +387,7 @@ if __name__ == "__main__":
 		fcst_eqmres1 = eqmres_bias_correction(model1, obs1, fcst_acc1)
                 fcst_eqmres2 = eqmres_bias_correction(model2, obs2, fcst_acc2)
                 fcst_eqmres3 = eqmres_bias_correction(model3, obs3, fcst_acc3)
-		
+
 		corr1 = np.full((firt_mon), np.nan)
 		corr_des1 = ((fcst1 / fcst_acc1) * fcst_eqmres1)
 		
