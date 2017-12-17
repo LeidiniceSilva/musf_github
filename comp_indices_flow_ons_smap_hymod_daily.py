@@ -67,17 +67,17 @@ def import_hind_obs_bases(mon, basin):
     ndays = calendar.monthrange(1981, mon)[1]
 
     try:
-        var = []
-        for y in range(1981, 2010 + 1):
-            inc = Dataset(file_name)
-            time_var = inc.variables['time']
-            iidx = date2index(datetime(y, mon, 01), time_var)
-            fidx = date2index(datetime(y, mon, ndays), time_var)
-            var.append(inc.variables[param][iidx:fidx + 1])
-        flag = True
-        obs  = np.squeeze(var)
-        obs  = np.reshape(obs, obs.shape[0] * obs.shape[1])
-        return obs, flag
+		var = []
+		for y in range(1981, 2010 + 1):
+			inc = Dataset(file_name)
+			time_var = inc.variables['time']
+			iidx = date2index(datetime(y, mon, 01), time_var)
+			fidx = date2index(datetime(y, mon, ndays), time_var)
+			var.append(inc.variables[param][iidx:fidx + 1])
+		flag = True
+		obs  = np.squeeze(var)
+		obs  = np.reshape(obs, obs.shape[0] * obs.shape[1])
+		return obs, flag
     except:
         flag = False
         obs  = []

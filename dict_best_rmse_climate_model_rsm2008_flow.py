@@ -26,7 +26,7 @@ var_name   = 'flow'
 time_freq  = 'monthly'
 model_name = 'rsm2008'
 hind_name  = 'hind8110'
-obs_base  = 'ons_obs'
+obs_base   = 'ons_obs'
 obs_period = '19810115_*'
 
 HIDROPY_DIR = os.environ['HIDROPY_DIR']
@@ -145,8 +145,23 @@ for macro in macros:
     for bas1 in basins:
         if '_colider_inc' not in (bas1):
             bas_new1.append(bas1)
-	
-    for basin in bas_new1:
+
+    bas_new2 = []
+    for bas2 in bas_new1:
+        if '_billings' not in (bas2):
+            bas_new2.append(bas2)
+    
+    bas_new3 = []
+    for bas3 in bas_new2:
+        if '_salto_santiago' not in (bas3):
+            bas_new3.append(bas3)
+
+    bas_new4 = []
+    for bas4 in bas_new3:
+        if '_segredo' not in (bas4):
+            bas_new4.append(bas4)
+	    	
+    for basin in bas_new4:
         print 'Processing micro: {0}'.format(basin)
    
         months = np.arange(1, 12 + 1)
@@ -173,7 +188,7 @@ for macro in macros:
 	    
             list_obs = import_hind_obs_data(model_name, mon, basin)
 	    conc_obs = np.concatenate(list_obs, axis=0)
-
+	    
 	    rmse_crude       = cs.compute_rmse(conc_cru,         conc_obs)
 	    rmse_cor_flow    = cs.compute_rmse(conc_cor_flow,    conc_obs)
 	    rmse_cor_pr      = cs.compute_rmse(conc_cor_pr,      conc_obs)
@@ -187,6 +202,6 @@ for macro in macros:
 
 file_name = 'basins_remove_bias_flow_{0}_all_methods_monthly.py'.format(model_name)
 file_save = open(file_name, 'w')
-file_save.write('dict_remove_bias_{0}='.format(model) + str(monthly_dict))
+file_save.write('dict_remove_bias_{0}='.format(model_name) + str(monthly_dict))
 file_save.close()
 print 'finish'

@@ -97,25 +97,19 @@ def import_model_data(model, year, mon, basin, method):
     ini_rundate, star_fcstdate, end_fcstdate = define_dates(target_date)
 
     if model == 'ncep-cfsv2':
-	file_model = "{0}/{1}_{2}_{3}_{4}_fcst_{5}_{6}_{7}_{8}_{9}{10}_petclim.nc" \
+		file_model = "{0}/{1}_{2}_{3}_{4}_fcst_{5}_{6}_{7}_{8}_{9}{10}_petclim.nc" \
 		     .format(dir_model, param, scale, model, period, ini_rundate, 
 		             star_fcstdate, end_fcstdate, typ, basin, method)
     else:
-	file_model = "{0}/{1}_{2}_{3}_{4}_fcst_{5}_{6}_{7}_{8}_{9}{10}.nc" \
+		file_model = "{0}/{1}_{2}_{3}_{4}_fcst_{5}_{6}_{7}_{8}_{9}{10}.nc" \
 		     .format(dir_model, param, scale, model, period, ini_rundate, 
 		             star_fcstdate, end_fcstdate, typ, basin, method)
-
-    if os.path.exists(file_model):
-	print 'input model ----->', file_model
+	
 	input_data = Dataset(file_model)
 	var  = input_data.variables[param][:]
 	clim_list.append(var)
 	clim = np.squeeze(clim_list)
 	
-    else:
-	print 'missing model --->', file_model
-	pass
-
     return clim
 
 
@@ -124,8 +118,6 @@ def import_obs_data(fyear, mon, basin):
     dir_obs  = "{0}/io/{1}/ons_{2}/1981-present/{3}"	     .format(home, param, scale, macro)
     file_obs = lsname("{0}/{1}_{2}_ons_obs_19810115_*_{3}.nc".format(dir_obs, param, scale, basin))
 
-    if os.path.exists(file_obs):
-	
 	data = netCDF4.Dataset(file_obs)
 	time = data.variables['time']
 
@@ -187,7 +179,7 @@ def import_obs_data(fyear, mon, basin):
 	
 	
     else:
-	print 'missing --------->', file_obs
+		print 'missing --------->', file_obs
 	pass
 	    
     return ons_cicle, ons_clim, ons_clim_p33, ons_clim_p66
@@ -345,18 +337,17 @@ for method in cor_method_list:
 		    path_out = (home + "/leidinice/results/vazpast/monthly/plume_graphs/{0}_{1}{2}/{3}/{4}/".format(typ, scale, method, month, macro))
 
 		    if not os.path.exists(path_out):
-			create_path(path_out)
+				create_path(path_out)
 
 		    graph = 'plume_flow_all_models_{0}_{1}{2}_{3}_{4}_{5}_{6}.png'.format(typ, scale, method, ini_rundate[0:-2], star_fcstdate[0:-2], end_fcstdate[0:-2], basin)
 
 		    if not os.path.exists(path_out+graph):
-			plt.savefig(os.path.join(path_out, graph), bbox_inches='tight')
+				plt.savefig(os.path.join(path_out, graph), bbox_inches='tight')
 			print 'done ------------>', path_out+graph
 			
 		    else:
-			print 'file exists -----> {0}'.format(path_out+graph)
+				print 'file exists -----> {0}'.format(path_out+graph)
 			pass
-		    exit()
 
 
 

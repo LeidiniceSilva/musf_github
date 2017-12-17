@@ -28,8 +28,8 @@ model_name = 'rsm2008'
 hind_name  = 'hind8110'
 data_base_cal   = 'inmet_ana_chirps_merge'
 data_base_ope   = 'inmet_ana_merge'
-cal_obs_period = '19610101_20141231'
-ope_obs_period = '20150101_*'
+cal_obs_period  = '19610101_20141231'
+ope_obs_period  = '20150101_*'
 
 HIDROPY_DIR = os.environ['HIDROPY_DIR']
 
@@ -40,7 +40,7 @@ __description__ = "Create dictionary with information about the best method remo
 
     
 def define_dates(target_date):
-    
+        
     target_ifcstdate = target_date + relativedelta(months=1)
     target_efcstdate = target_date + relativedelta(months=3)
 
@@ -114,8 +114,7 @@ def import_hind_obs_data(model_name, mon, basin):
     for year in range(1981, 2016 + 1):
 	
         target_rundate = datetime(year, mon, 01)
-        str_mon, start_rundate, start_fcstdate, end_fcstdate = define_dates(target_rundate)
-        firt_mon_sim = calendar.monthrange(year, int(str_mon))[1]
+        start_rundate, start_fcstdate, end_fcstdate = define_dates(target_rundate)
 	
 	# calibration period 
         file_name_cal = '{0}/io/inmet_ana_chirps_merge/calibration/{1}/' \
