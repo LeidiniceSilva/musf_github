@@ -7,7 +7,7 @@
 
 #__author__ = 'Leidinice Silva'
 #__email__  = 'leidinice.silva@funceme.br'
-#__date__   = '10/23/2017'
+#__date__   = '11/08/2017'
 
 
 for model in rsm2008; do

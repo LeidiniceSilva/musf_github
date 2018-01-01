@@ -1,5 +1,17 @@
 # -*- coding: utf-8 -*-
 
+# Author = 'Funceme'
+# Credits = 'Leidinice Silva'
+# Maintainer = 'Funceme'
+# Date = 27/10/2017  (dd/mm/aaaa)
+# Comment = 'Este script foi desenvolvido dentro do Termo de Cooperação 
+#	     0050.0100467.16.9 entre Funceme e Petrobras sob o contexto do
+#	     Projeto Projeção de Vazão Natural Afluente com base na escala 
+#	     de tempo e clima.'
+# Description = 'This script creates dictionary with information about the best
+#                monthly remove bias method per basin'
+
+
 """ This script creates dictionary with information about the best
 monthly remove bias method per basin. """
 
@@ -33,7 +45,7 @@ HIDROPY_DIR = os.environ['HIDROPY_DIR']
  
 __author__ = "Leidinice Silva"
 __email__  = "leidinice.silvae@funceme.br"
-__date__   = "29/11/2017"
+__date__   = "10/27/2017"
 __description__ = "Create dictionary with information about the best method remove bias of flow monthly per basin"
 
 
@@ -141,27 +153,7 @@ for macro in macros:
     
     basins = basinsf(smap=macro)
     
-    bas_new1 = []
-    for bas1 in basins:
-        if '_colider_inc' not in (bas1):
-            bas_new1.append(bas1)
-
-    bas_new2 = []
-    for bas2 in bas_new1:
-        if '_billings' not in (bas2):
-            bas_new2.append(bas2)
-    
-    bas_new3 = []
-    for bas3 in bas_new2:
-        if '_salto_santiago' not in (bas3):
-            bas_new3.append(bas3)
-
-    bas_new4 = []
-    for bas4 in bas_new3:
-        if '_segredo' not in (bas4):
-            bas_new4.append(bas4)
-	    	
-    for basin in bas_new4:
+    for basin in basins:
         print 'Processing micro: {0}'.format(basin)
    
         months = np.arange(1, 12 + 1)

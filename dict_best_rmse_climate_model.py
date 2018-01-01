@@ -1,5 +1,17 @@
 # -*- coding: utf-8 -*-
 
+# Author = 'Funceme'
+# Credits = 'Leidinice Silva'
+# Maintainer = 'Funceme'
+# Date = 26/09/2017  (dd/mm/aaaa)
+# Comment = 'Este script foi desenvolvido dentro do Termo de Cooperação 
+#	     0050.0100467.16.9 entre Funceme e Petrobras sob o contexto do
+#	     Projeto Projeção de Vazão Natural Afluente com base na escala 
+#	     de tempo e clima.'
+# Description = 'This script creates dictionary with information about the best
+#                monthly remove bias method per basin'
+
+
 """ This script creates dictionary with information about the best
 monthly remove bias method per basin. """
 
@@ -23,7 +35,7 @@ home  = expanduser("~")
 
 __author__ = "Leidinice Silva"
 __email__  = "leidinice.silvae@funceme.br"
-__date__   = "26/09/2017"
+__date__   = "09/26/2017"
 __description__ = "Create dictionary with information about the best method remove bias of flow monthly per basin"
 
 
