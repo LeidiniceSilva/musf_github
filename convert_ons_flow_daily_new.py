@@ -50,9 +50,9 @@ def arguments():
     # fday   = datetime.now().day
     
     ## datas do último arquivo fornecido pela ONS:
-    fyear  = 2017
-    fmonth = 10
-    fday   = 30
+    fyear  = 2018
+    fmonth = 02
+    fday   = 06
     
     parser = argparse.ArgumentParser(prog='Compute flow')
     parser.add_argument('--iyear'    , help='Initial year (2016)')
@@ -84,7 +84,7 @@ fdate = datetime(cur_year, cur_month, cur_day).strftime('%Y%m%d')
 # Reading file
 print 'Reading ONS daily flow per basin'
 
-my_data = genfromtxt("/home/musf/leidinice/flow_ons/daily/historico_vazao_2016_2017_new.csv", delimiter=',')
+my_data = genfromtxt("/home/musf/leidinice/flow_ons/daily/historico_vazao_2016_2018_new.csv", delimiter=',')
 
 for i, cod in enumerate(my_data[:,0]):
    
@@ -97,7 +97,7 @@ for i, cod in enumerate(my_data[:,0]):
 	values_mx = ma.masked_values(values, -999.)
 
 	# Write flow
-	path_out = "/home/musf/leidinice/flow_ons/daily/ons_daily/{0}/".format(macro)
+	path_out = "/home/musf/leidinice/flow_ons/daily/ons_daily_2016_2018/{0}/".format(macro)
 	
 	if not os.path.exists(path_out):
 	    os.makedirs(path_out)
